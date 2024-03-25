@@ -36,6 +36,7 @@ display_menu() {
     printf "%s\n" "Undo all current uncommited changes"
     printf "%s\n" "Undo ${BOLD_ORG_FG}git tag${RESET}"
     printf "%s\n" "Undo ${BOLD_ORG_FG}git rm${RESET}"
+    printf "%s\n" "Undo ${BOLD_ORG_FG}git modify${RESET}"
 }
 
 perror() {
@@ -102,6 +103,20 @@ undo_git_add() {
         --header="Use TAB to select multiple files")
 
     if [[ ${#choices[@]} -gt 0 ]] && git restore --staged "${choices[@]}"; then
+        printf "%s\n" "Done 👍️"
+    else
+        perror "Error: unable to perform operation"
+    fi
+}
+
+undo_git_modify() {
+    # show prompt to unstage files interactively
+    readarray -t choices < <(git ls-files --modified 2> /dev/null | fzf --height 10% --reverse --multi \
+        --marker='🢂 ' --color 'marker:#B8CC52' \
+        --prompt="Choose files to cancel modifed: " \
+        --header="Use TAB to select multiple files")
+
+    if [[ ${#choices[@]} -gt 0 ]] && git restore "${choices[@]}"; then
         printf "%s\n" "Done 👍️"
     else
         perror "Error: unable to perform operation"
@@ -386,6 +401,7 @@ ugit_menu() {
         19) undo_all;;
         20) undo_git_tag;;
         21) undo_git_rm;;
+        22) undo_git_modify;;
     esac
 }
 
