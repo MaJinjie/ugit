@@ -52,6 +52,8 @@ https://user-images.githubusercontent.com/34342551/121651071-d9fd1580-cab7-11eb-
 
 - [x] Undo `git commit`
 - [x] Undo `git add`
+- [x] Undo `git modify` (git ls-files --modified | git restore)
+- [x] Undo `git delete` (git ls-files --deleted | git restore)
 - [x] Undo `git push`
 - [x] Undo `git branch -D` (branch delete)
 - [x] Undo `git pull`

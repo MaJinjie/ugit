@@ -37,6 +37,7 @@ display_menu() {
     printf "%s\n" "Undo ${BOLD_ORG_FG}git tag${RESET}"
     printf "%s\n" "Undo ${BOLD_ORG_FG}git rm${RESET}"
     printf "%s\n" "Undo ${BOLD_ORG_FG}git modify${RESET}"
+    printf "%s\n" "Undo ${BOLD_ORG_FG}git delete${RESET}"
 }
 
 perror() {
@@ -109,11 +110,11 @@ undo_git_add() {
     fi
 }
 
-undo_git_modify() {
+undo_git_restore() {
     # show prompt to unstage files interactively
-    readarray -t choices < <(git ls-files --modified 2> /dev/null | fzf --height 10% --reverse --multi \
+    readarray -t choices < <(git ls-files --$1 2> /dev/null | fzf --height 10% --reverse --multi \
         --marker='🢂 ' --color 'marker:#B8CC52' \
-        --prompt="Choose files to cancel modifed: " \
+        --prompt="Choose files to cancel $1: " \
         --header="Use TAB to select multiple files")
 
     if [[ ${#choices[@]} -gt 0 ]] && git restore "${choices[@]}"; then
@@ -401,7 +402,8 @@ ugit_menu() {
         19) undo_all;;
         20) undo_git_tag;;
         21) undo_git_rm;;
-        22) undo_git_modify;;
+        22) undo_git_restore "modify";;
+        23) undo_git_restore "deleted";;
     esac
 }
 
