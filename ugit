@@ -36,8 +36,8 @@ display_menu() {
     printf "%s\n" "Undo all current uncommited changes"
     printf "%s\n" "Undo ${BOLD_ORG_FG}git tag${RESET}"
     printf "%s\n" "Undo ${BOLD_ORG_FG}git rm${RESET}"
-    printf "%s\n" "Undo ${BOLD_ORG_FG}git modify${RESET}"
-    printf "%s\n" "Undo ${BOLD_ORG_FG}git delete${RESET}"
+    printf "%s\n" "Undo ${BOLD_ORG_FG}files modify${RESET}"
+    printf "%s\n" "Undo ${BOLD_ORG_FG}files delete${RESET}"
 }
 
 perror() {
